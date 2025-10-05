@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-using System.Text.Json;  // requires .NET Core 3+ or .NET 5+
+using System.Text.Json;
 
 public class KeyInfo
 {

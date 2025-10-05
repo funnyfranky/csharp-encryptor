@@ -6,28 +6,29 @@ using System.Text;
 public static class SimpleEncryptor
 {
 
-public static byte[] EncryptString(string plainText, byte[] key, byte[] iv)
-{
-    using (Aes aes = Aes.Create())
+    public static byte[] EncryptString(string plainText, byte[] key, byte[] iv)
     {
-        aes.Key = key;
-        aes.IV = iv;
-
-        using (var encryptor = aes.CreateEncryptor(aes.Key, aes.IV))
-        using (var ms = new MemoryStream())
+        using (Aes aes = Aes.Create())
         {
-            using (var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
-            using (var sw = new StreamWriter(cs))
-            {
-                sw.Write(plainText);
-            }
+            aes.Key = key;
+            aes.IV = iv;
 
-            return ms.ToArray();
+            using (var encryptor = aes.CreateEncryptor(aes.Key, aes.IV))
+            using (var ms = new MemoryStream())
+            {
+                using (var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
+                using (var sw = new StreamWriter(cs))
+                {
+                    sw.Write(plainText);
+                }
+
+                return ms.ToArray();
+            }
         }
     }
-}
 
     public static string DecryptString(byte[] cipherText, byte[] key, byte[] iv)
+                                    // using byte arrays
     {
         using (Aes aes = Aes.Create())
         {

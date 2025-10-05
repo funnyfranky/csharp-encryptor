@@ -6,6 +6,7 @@ class Program
     static void Main(string[] args)
     {
         if (args.Length == 0)
+        // If program is run with no args prints these options
         {
             Console.WriteLine("Usage:");
             Console.WriteLine("  genkey <.json keyfile>");
@@ -17,6 +18,7 @@ class Program
         }
 
         if (args[0] == "genkey")
+        // If program is run with genkey only
         {
             string keyfile = args[1];
             using var aes = Aes.Create();
@@ -26,6 +28,7 @@ class Program
             Console.WriteLine($"Key + IV saved to {keyfile}");
         }
         else if (args[0] == "encrypt" && args[1] == "text")
+        // If program is run with encrypt text
         {
             string keyfile = args[2];
             var (key, iv) = KeyFileHelper.LoadKey(keyfile);
@@ -33,7 +36,23 @@ class Program
             byte[] encrypted = SimpleEncryptor.EncryptString(text, key, iv);
             Console.WriteLine("Encrypted (Base64): " + Convert.ToBase64String(encrypted));
         }
+        else if (args[0] == "decrypt" && args[1] == "text")
+        // If program is run with decrypt text
+        {
+            string keyfile = args[2];
+            var (key, iv) = KeyFileHelper.LoadKey(keyfile);
+
+            // join everything after the keyfile into one string
+            string base64 = string.Join(" ", args, 3, args.Length - 3);
+
+            // decode Base64 back to bytes
+            byte[] cipherBytes = Convert.FromBase64String(base64);
+
+            string decrypted = SimpleEncryptor.DecryptString(cipherBytes, key, iv);
+            Console.WriteLine("Decrypted: " + decrypted);
+        }
         else if (args[0] == "encrypt" && args[1] == "file")
+        // If program is run with encrypt file
         {
             string keyfile = args[2];
             var (key, iv) = KeyFileHelper.LoadKey(keyfile);
@@ -43,6 +62,7 @@ class Program
             Console.WriteLine("File encrypted!");
         }
         else if (args[0] == "decrypt" && args[1] == "file")
+        // If program is run with decrypt file
         {
             string keyfile = args[2];
             var (key, iv) = KeyFileHelper.LoadKey(keyfile);
@@ -51,19 +71,5 @@ class Program
             SimpleEncryptor.DecryptFile(inputFile, outputFile, key, iv);
             Console.WriteLine("File decrypted!");
         }
-	else if (args[0] == "decrypt" && args[1] == "text")
-	{
-		string keyfile = args[2];
-		var (key, iv) = KeyFileHelper.LoadKey(keyfile);
-
-		// join everything after the keyfile into one string
-		string base64 = string.Join(" ", args, 3, args.Length - 3);
-
-		// decode Base64 back to bytes
-		byte[] cipherBytes = Convert.FromBase64String(base64);
-
-		string decrypted = SimpleEncryptor.DecryptString(cipherBytes, key, iv);
-		Console.WriteLine("Decrypted: " + decrypted);
-	}
     }
 }
