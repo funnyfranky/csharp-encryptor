@@ -21,7 +21,7 @@ The primary purpose of writing this software was to:
 
 **TODO:** Provide a link to a YouTube demonstration. 4-5 minute demo of the software running and a walkthrough of the code. Focus on what I learned about the language syntax.
 
-[Software Demo Video](http://youtube.link.goes.here)
+[Software Demo Video](https://youtu.be/y0BzqHWdZsk)
 
 ## Development Environment
 
