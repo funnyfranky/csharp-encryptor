@@ -75,3 +75,4 @@ _ReSharper*/
 .DS_Store
 Thumbs.db
 
+ModuleReport.*
